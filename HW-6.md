@@ -332,16 +332,22 @@ interval for R square is (0.934, 0.947). This indicates that the fitted
 model consistently explains around 94% of the variation in tmax across
 bootstrap resamples.
 
-The bootstrap distribution of Beta ratio is right-skewed, with most
-values falling between roughly −275 and −150, consistent with the
-histogram. Based on the 2.5th and 97.5th percentiles, the 95% bootstrap
-confidence interval for beta ratio is (-277.9, -125.2), or approximately
-(−277.9, −125.2). This interval is strictly negative, suggesting that
-the estimated coefficients for tmin and prcp consistently have opposite
+The bootstrap distribution of Beta ratio is right-skewed, reflecting the
+heavy influence of small denominator (β₂) values. with most values
+falling between roughly −275 and −150, consistent with the histogram.
+Based on the 2.5th and 97.5th percentiles, the 95% bootstrap confidence
+interval for beta ratio is (-277.9, -125.2), or approximately (−277.9,
+−125.2). This interval is strictly negative, suggesting that the
+estimated coefficients for tmin and prcp consistently have opposite
 signs and that the relative magnitude between these effects is stable
 across bootstrap samples.
 
 # P3
+
+This model is motivated by biological plausibility: prenatal maternal
+characteristics (BMI, smoking, weight gain, age) and gestational age are
+known determinants of birthweight, whereas measurements taken at birth
+(length/head) are excluded as they do not represent prenatal exposures.
 
 1.  Load & clean data
 
@@ -596,7 +602,13 @@ ggplot(bw_cv_long, aes(x = model, y = rmse)) +
   theme_minimal()
 ```
 
-![](HW-6_files/figure-gfm/unnamed-chunk-20-1.png)<!-- -->
+![](HW-6_files/figure-gfm/unnamed-chunk-20-1.png)<!-- --> The
+cross-validation results indicate that models including physical
+neonatal measurements (length/head) outperform purely prenatal models,
+suggesting that much of the variation in birthweight is more closely
+associated with newborn size than maternal characteristics alone.
+
+# Summary
 
 Results from 100 Monte Carlo cross-validation splits showed that the
 Head × Length × Sex model had the lowest average RMSE (r = 289.4331,1)

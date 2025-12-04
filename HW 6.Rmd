@@ -227,9 +227,11 @@ beta_ratio_boot %>%
 ```
 The bootstrap distribution of R square is approximately symmetric and bell-shaped, centered around about 0.94, as shown in the histogram. Using the 2.5th and 97.5th percentiles of the 5000 bootstrap samples, the 95% confidence interval for R square is (`r round(r2_ci$r2_lower, 3)`, `r round(r2_ci$r2_upper, 3)`). This indicates that the fitted model consistently explains around 94% of the variation in tmax across bootstrap resamples.
 
-The bootstrap distribution of Beta ratio is right-skewed, with most values falling between roughly −275 and −150, consistent with the histogram. Based on the 2.5th and 97.5th percentiles, the 95% bootstrap confidence interval for beta ratio is (`r round(beta_ratio_ci$ratio_lower, 1)`, `r round(beta_ratio_ci$ratio_upper, 1)`), or approximately (−277.9, −125.2). This interval is strictly negative, suggesting that the estimated coefficients for tmin and prcp consistently have opposite signs and that the relative magnitude between these effects is stable across bootstrap samples.
+The bootstrap distribution of Beta ratio is right-skewed, reflecting the heavy influence of small denominator (β₂) values. with most values falling between roughly −275 and −150, consistent with the histogram. Based on the 2.5th and 97.5th percentiles, the 95% bootstrap confidence interval for beta ratio is (`r round(beta_ratio_ci$ratio_lower, 1)`, `r round(beta_ratio_ci$ratio_upper, 1)`), or approximately (−277.9, −125.2). This interval is strictly negative, suggesting that the estimated coefficients for tmin and prcp consistently have opposite signs and that the relative magnitude between these effects is stable across bootstrap samples.
 
 # P3
+This model is motivated by biological plausibility: prenatal maternal characteristics (BMI, smoking, weight gain, age) and gestational age are known determinants of birthweight, whereas measurements taken at birth (length/head) are excluded as they do not represent prenatal exposures.
+
 1. Load & clean data
 ```{r message = FALSE}
 bw_raw <- read_csv("birthweight.csv") %>% 
@@ -428,7 +430,9 @@ ggplot(bw_cv_long, aes(x = model, y = rmse)) +
   ) +
   theme_minimal()
 ```
+The cross-validation results indicate that models including physical neonatal measurements (length/head) outperform purely prenatal models, suggesting that much of the variation in birthweight is more closely associated with newborn size than maternal characteristics alone.
 
+# Summary
 Results from 100 Monte Carlo cross-validation splits showed that the Head × Length × Sex model had the lowest average RMSE (r = 289.4331,1) grams and the tightest distribution (SD = 10.23,2). Length + GA had a somewhat bigger spread and relatively higher prediction error (334.2363 grams). Although the SD was minor, the main model that included maternal demographics, behavior, and anthropometrics had the greatest average RMSE (419.9244 grams).
 
 These findings indicate that head circumference and length at delivery are more predictive of birthweight than prenatal or maternal factors. The completely interacted head–length–sex model performs best out-of-sample, demonstrating that interaction structure among strong physical indicators improves predictive accuracy. Although interpretable, the basic physiologically driven maternal model predicts poorly.
