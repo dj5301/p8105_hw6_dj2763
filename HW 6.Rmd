@@ -70,7 +70,7 @@ baltimore_or <- baltimore_glm %>%
 
 baltimore_or
 ```
-For Baltimore, MD, the adjusted odds ratio for solving homicides comparing male victims to female victims, controlling for age and race, is OR = XX (95% CI: LL, UU).
+For Baltimore, MD, the adjusted odds ratio for solving homicides comparing male victims to female victims, controlling for age and race, is OR = `r baltimore_or$estimate`.
 
 3. Run glm for each city using map + list columns
 ```{r}
